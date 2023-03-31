@@ -36,7 +36,7 @@ const PostsPage = ({ error }) => {
     return (
         <>
             <Meta
-                title={'Posts Management'}
+                title={'Posts Management | Compact-Idea'}
                 description={'This is post management page.'}
             />
 

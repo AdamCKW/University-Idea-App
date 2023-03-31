@@ -36,7 +36,7 @@ const CategoriesPage = ({ error }) => {
 
     return (
         <>
-            <Meta title={'Categories'} />
+            <Meta title={'Categories | Compact-Idea'} />
             <Box
                 component="main"
                 sx={{

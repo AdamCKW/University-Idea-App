@@ -37,7 +37,7 @@ const UsersPage = ({ error }) => {
     return (
         <>
             <Meta
-                title={'Accounts | Idea-App'}
+                title={'Accounts | Compact-Idea'}
                 description={'This is the accounts page!'}
             />
 
