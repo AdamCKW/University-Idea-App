@@ -19,7 +19,7 @@ import AddIdea from '@/sections/feed/main/AddIdea';
 import PostList from '@/sections/feed/main/PostList';
 import FilterActions from '@/sections/feed/main/FilterActions';
 import Pagination from '@/sections/feed/main/Pagination';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 const now = new Date();
 
