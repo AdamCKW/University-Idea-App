@@ -12,6 +12,7 @@
         "@emotion/react": "^11.10.6",
         "@emotion/server": "^11.10.0",
         "@emotion/styled": "^11.10.6",
+        "@heroicons/react": "^2.0.17",
         "@mui/icons-material": "^5.11.11",
         "@mui/material": "^5.11.14",
         "@mui/x-data-grid": "^6.0.3",
@@ -30,9 +31,11 @@
         "multer-gridfs-storage": "github:habur/multer-gridfs-storage",
         "next": "13.2.4",
         "next-auth": "^4.20.1",
+        "nprogress": "^0.2.0",
         "react": "18.2.0",
         "react-apexcharts": "^1.4.0",
         "react-dom": "18.2.0",
+        "simplebar-react": "^3.2.3",
         "swr": "^2.1.1"
     }
 }
