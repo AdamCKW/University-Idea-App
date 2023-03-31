@@ -15,7 +15,7 @@ import { CommentsPerWeek } from '@/sections/overview/comments-per-week';
 import { NotActivePosts } from '@/sections/overview/not-active-posts';
 import { AnonymousPosts } from '@/sections/overview/anony-posts';
 import { AnonymousComments } from '@/sections/overview/anony-comments';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 import { getSession, useSession } from 'next-auth/react';
 import moment from 'moment';
 import useSWR from 'swr';
