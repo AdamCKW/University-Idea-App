@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import { useAlertContext } from '@/context/alert-context';
 import login_validate from '@/utils/validate';
 import { signIn } from 'next-auth/react';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 import {
     Alert,
