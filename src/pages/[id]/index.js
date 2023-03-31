@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 
 import { Layout as DashboardLayout } from '@/layouts/dashboard/layout';
-import PostCard from '@/sections/feed/individual/Post/PostCard';
-import CommentForm from '@/sections/feed/individual/Comments/CommentForm';
-import CommentCard from '@/sections/feed/individual/Comments/CommentCard';
+import PostCard from '@/sections/feed/individual/post/PostCard';
+import CommentForm from '@/sections/feed/individual/comments/CommentForm';
+import CommentCard from '@/sections/feed/individual/comments/CommentCard';
 import { getSession, useSession } from 'next-auth/react';
 import { getFormatDate } from '@/utils/getFormatDate';
 import Loading from '@/components/Loading';
