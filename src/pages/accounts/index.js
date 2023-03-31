@@ -19,7 +19,7 @@ import {
 import UserTable from '@/sections/dashboard/users/UserTableGrid';
 import AddUserForm from '@/sections/dashboard/users/AddUser';
 import { Layout as DashboardLayout } from '@/layouts/dashboard/layout';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 const UsersPage = ({ error }) => {
     const { data: session } = useSession();
