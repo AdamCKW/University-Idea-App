@@ -2,7 +2,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import ArrowLeftIcon from '@heroicons/react/24/solid/ArrowLeftIcon';
 import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 const Page = () => (
     <>
