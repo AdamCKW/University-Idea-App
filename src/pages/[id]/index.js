@@ -20,7 +20,7 @@ import { getFormatDate } from '@/utils/getFormatDate';
 import Loading from '@/components/Loading';
 import useSWR from 'swr';
 import axios from 'axios';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
