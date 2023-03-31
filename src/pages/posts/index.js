@@ -19,7 +19,7 @@ import {
 import PostTable from '@/sections/dashboard/posts/PostTable';
 import ClosureCard from '@/sections/dashboard/posts/Closure';
 import { Layout as DashboardLayout } from '@/layouts/dashboard/layout';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 const PostsPage = ({ error }) => {
     const { data: session } = useSession();
