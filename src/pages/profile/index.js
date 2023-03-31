@@ -14,7 +14,7 @@ import { AccountProfile } from '@/sections/account/account-profile';
 import { AccountProfileDetails } from '@/sections/account/account-profile-details';
 import useSWR from 'swr';
 import axios from 'axios';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 import Loading from '@/components/Loading';
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
