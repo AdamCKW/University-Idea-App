@@ -18,7 +18,7 @@ import {
 import AddCategory from '@/sections/dashboard/categories/AddCategoryForm';
 import CategoryDataGrid from '@/sections/dashboard/categories/CategoryTableGrid';
 import { Layout as DashboardLayout } from '@/layouts/dashboard/layout';
-import Meta from '@/components/Meta';
+import Meta from '@/components/meta';
 
 const CategoriesPage = ({ error }) => {
     const { data: session } = useSession();
