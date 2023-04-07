@@ -68,8 +68,15 @@ export const AddCategory = async (req, res) => {
  */
 export const UpdateCategory = async (req, res) => {
     const { id } = req.query;
+    const { name } = req.body;
 
     try {
+        const existingCategory = await Category.findOne({ name });
+
+        if (existingCategory) {
+            return res.status(400).json(`Category Name Already Exists`);
+        }
+
         await Category.findByIdAndUpdate(id, {
             $set: req.body,
         });
