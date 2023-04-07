@@ -25,3 +25,9 @@ export default async function handler(req, res) {
         return DownloadPostData(req, res);
     }
 }
+
+export const config = {
+    api: {
+        responseLimit: false,
+    },
+};

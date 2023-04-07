@@ -24,3 +24,9 @@ export default async function handler(req, res) {
         return GetAllUploads(req, res);
     }
 }
+
+export const config = {
+    api: {
+        responseLimit: false,
+    },
+};
