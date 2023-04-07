@@ -1,6 +1,13 @@
 import bcrypt from 'bcrypt';
 import User from 'models/User';
+import Post from 'models/Post';
+import { GridFsStorage } from 'multer-gridfs-storage';
+import multer from 'multer';
+import { connectDatabase, gfs } from '@/utils/mongodb';
+import { parseISO, differenceInYears } from 'date-fns';
+
 import restrictedNames from '@/utils/restrictedNames';
+
 export const FindUser = async (req, res) => {
     const { id } = req.query;
 
@@ -69,6 +76,14 @@ export const UserRegister = async (req, res) => {
                 return res.status(400).json('Name not allowed');
             default:
                 break;
+        }
+
+        const dob = parseISO(dateOfBirth);
+        const age = differenceInYears(new Date(), dob);
+        if (age < 17) {
+            return res
+                .status(400)
+                .json('Users must be at least 17 years old to be added.');
         }
 
         /* Generating a salt and then hashing the password. */
@@ -177,10 +192,51 @@ export const DeleteUser = async (req, res) => {
     }
 };
 
+const deleteFiles = async (fileIds) => {
+    await Promise.all(
+        fileIds.map(async (fileId) => {
+            try {
+                const _id = new mongoose.Types.ObjectId(fileId);
+                await gfs.delete(_id);
+            } catch (err) {
+                throw new Error(`${err}`);
+            }
+        })
+    );
+};
+
 export const DeleteMultipleUsers = async (req, res) => {
     const ids = req.body;
 
     try {
+        // const posts = await Post.find({ author: { $in: ids } });
+        const postIds = await Post.find({ author: { $in: ids } })
+            .select('_id')
+            .lean()
+            .then((posts) => posts.map((post) => post._id));
+
+        const result = await Promise.all(
+            postIds.map(async (id) => {
+                const post = await Post.findById(id);
+                if (!post) {
+                    return {
+                        message: `Post with id ${id} not found`,
+                    };
+                }
+                await deleteFiles(post.images.map((file) => file));
+                await deleteFiles(post.documents.map((file) => file));
+
+                await Comment.deleteMany({
+                    _id: { $in: post.comments },
+                });
+                await post.deleteOne();
+
+                return {
+                    message: `Post with id ${id} deleted successfully`,
+                };
+            })
+        );
+
         await User.deleteMany({ _id: { $in: ids } });
 
         return res.status(200).json('Users have been deleted successfully');

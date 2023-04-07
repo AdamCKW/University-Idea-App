@@ -49,7 +49,7 @@ export const AddCategory = async (req, res) => {
         const existingCategory = await Category.findOne({ name });
 
         if (existingCategory) {
-            return res.status(400).json(`Internal Server Error: ${error}`);
+            return res.status(400).json(`Category Name Already Exists`);
         }
 
         const category = await newCategory.save();
