@@ -46,7 +46,7 @@ const Profile = () => {
     return (
         <>
             <Meta
-                title={'Profile | Compact-Idea'}
+                title={'Profile'}
                 description={"This is the user's profile"}
             />
 

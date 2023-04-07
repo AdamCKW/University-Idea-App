@@ -34,6 +34,30 @@ export default function TermsDialog({
     const handleAgree = async () => {
         const { setImageFiles, setDocFiles } = uploadProps;
 
+        const totalDocSize = values.documents.reduce(
+            (acc, file) => acc + file.size,
+            0
+        );
+        const totalImageSize = values.images.reduce(
+            (acc, file) => acc + file.size,
+            0
+        );
+
+        if (
+            totalDocSize > 100 * 1024 * 1024 ||
+            totalImageSize > 100 * 1024 * 1024
+        ) {
+            setAlertMessage(
+                `Total ${
+                    totalDocSize > 100 * 1024 * 1024 ? 'document' : 'image'
+                } size cannot exceed 100 MB`
+            );
+            setIsError(true);
+            setAlertOpen(true);
+            setDialog(false);
+            return;
+        }
+
         const options = {
             onUploadProgress: (progressEvent) => {
                 const percentCompleted = Math.round(

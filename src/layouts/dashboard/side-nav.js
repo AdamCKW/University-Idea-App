@@ -1,8 +1,6 @@
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import PropTypes from 'prop-types';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
-import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
 import {
     Box,
     Button,
@@ -17,8 +15,10 @@ import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import { getSession, useSession } from 'next-auth/react';
 
 export const SideNav = (props) => {
+    const { data: session } = useSession();
     const { open, onClose } = props;
     const pathname = usePathname();
     const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
@@ -80,17 +80,23 @@ export const SideNav = (props) => {
                                 ? pathname === item.path
                                 : false;
 
-                            return (
-                                <SideNavItem
-                                    active={active}
-                                    disabled={item.disabled}
-                                    external={item.external}
-                                    icon={item.icon}
-                                    key={item.title}
-                                    path={item.path}
-                                    title={item.title}
-                                />
+                            const hasPermission = item.permissions.includes(
+                                session.user.role
                             );
+
+                            if (hasPermission) {
+                                return (
+                                    <SideNavItem
+                                        active={active}
+                                        disabled={item.disabled}
+                                        external={item.external}
+                                        icon={item.icon}
+                                        key={item.title}
+                                        path={item.path}
+                                        title={item.title}
+                                    />
+                                );
+                            }
                         })}
                     </Stack>
                 </Box>
@@ -142,3 +148,21 @@ SideNav.propTypes = {
     onClose: PropTypes.func,
     open: PropTypes.bool,
 };
+
+export async function getServerSideProps(context) {
+    const { req } = context;
+    const session = await getSession({ req });
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: { session },
+    };
+}

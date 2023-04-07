@@ -21,7 +21,10 @@ export default async function handler(req, res) {
         return FindAllCategories(req, res);
     }
 
-    if (session?.user?.role !== 'admin') {
+    if (
+        session?.user?.role !== 'admin' &&
+        session?.user?.role !== 'qaManager'
+    ) {
         return res
             .status(401)
             .json('You do not have permission to perform this action.');

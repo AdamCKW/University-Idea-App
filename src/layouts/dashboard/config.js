@@ -14,6 +14,7 @@ export const items = [
                 <HomeIcon />
             </SvgIcon>
         ),
+        permissions: ['admin', 'qaManager', 'qaCoordinator', 'staff'],
     },
     {
         title: 'Overview',
@@ -23,6 +24,7 @@ export const items = [
                 <BarChartIcon />
             </SvgIcon>
         ),
+        permissions: ['admin', 'qaManager', 'qaCoordinator'],
     },
     {
         title: 'Accounts',
@@ -32,6 +34,7 @@ export const items = [
                 <PersonIcon />
             </SvgIcon>
         ),
+        permissions: ['admin'],
     },
     {
         title: 'Categories',
@@ -41,6 +44,7 @@ export const items = [
                 <CategoryIcon />
             </SvgIcon>
         ),
+        permissions: ['admin', 'qaManager', 'qaCoordinator'],
     },
     {
         title: 'Posts',
@@ -50,5 +54,6 @@ export const items = [
                 <EmailIcon />
             </SvgIcon>
         ),
+        permissions: ['admin', 'qaManager', 'qaCoordinator'],
     },
 ];

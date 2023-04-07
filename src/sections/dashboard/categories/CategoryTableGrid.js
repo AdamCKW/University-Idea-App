@@ -38,7 +38,7 @@ const style = {
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-export default function CategoryTable() {
+export default function CategoryTable({ userRole }) {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     const {
@@ -70,7 +70,13 @@ export default function CategoryTable() {
             width: 100,
             align: 'right',
             sortable: false,
-            renderCell: (params) => <ActionsCell category={params.row} />,
+            // renderCell: (params) => <ActionsCell category={params.row} />,
+            renderCell: (params) => {
+                if (userRole === 'admin' || userRole === 'qaManager') {
+                    return <ActionsCell category={params.row} />;
+                }
+                return null;
+            },
         },
     ];
 

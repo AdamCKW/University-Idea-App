@@ -203,13 +203,6 @@ export default function AddUser({ setShowAddUser }) {
                                             Health and Human Services
                                         </MenuItem>
                                         <MenuItem value="Music">Music</MenuItem>
-                                        <MenuItem
-                                            value="Computer Science & Information
-                                            Technology"
-                                        >
-                                            Computer Science & Information
-                                            Technology
-                                        </MenuItem>
                                     </TextField>
                                 </Grid>
                             </Grid>

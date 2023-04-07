@@ -113,7 +113,7 @@ function Form({ userId, comment, setDialog, dialog, postId }) {
                             fullWidth
                             id="comment"
                             label="Comment"
-                            name="comment"
+                            name="title"
                             {...formik.getFieldProps('comment')}
                             error={
                                 formik.touched.comment &&

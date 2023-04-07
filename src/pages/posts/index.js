@@ -36,7 +36,7 @@ const PostsPage = ({ error }) => {
     return (
         <>
             <Meta
-                title={'Posts Management | Compact-Idea'}
+                title={'Posts Management'}
                 description={'This is post management page.'}
             />
 
@@ -56,41 +56,45 @@ const PostsPage = ({ error }) => {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">Posts</Typography>
-                                <Stack
-                                    alignItems="center"
-                                    direction="row"
-                                    spacing={1}
-                                >
-                                    <Button
-                                        href="api/download/data"
-                                        color="inherit"
-                                        startIcon={
-                                            <SvgIcon fontSize="small">
-                                                <ArchiveIcon />
-                                            </SvgIcon>
-                                        }
-                                        rel="noopener noreferrer"
-                                        target="_blank"
+                                {session.user.role == 'admin' && (
+                                    <Stack
+                                        alignItems="center"
+                                        direction="row"
+                                        spacing={1}
                                     >
-                                        Export
-                                    </Button>
-                                    <Button
-                                        href="api/download/files"
-                                        color="inherit"
-                                        startIcon={
-                                            <SvgIcon fontSize="small">
-                                                <DownloadIcon />
-                                            </SvgIcon>
-                                        }
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        Download
-                                    </Button>
-                                </Stack>
+                                        <Button
+                                            href="api/download/data"
+                                            color="inherit"
+                                            startIcon={
+                                                <SvgIcon fontSize="small">
+                                                    <ArchiveIcon />
+                                                </SvgIcon>
+                                            }
+                                            rel="noopener noreferrer"
+                                            target="_blank"
+                                        >
+                                            Export
+                                        </Button>
+
+                                        <Button
+                                            href="api/download/files"
+                                            color="inherit"
+                                            startIcon={
+                                                <SvgIcon fontSize="small">
+                                                    <DownloadIcon />
+                                                </SvgIcon>
+                                            }
+                                            rel="noopener noreferrer"
+                                            target="_blank"
+                                        >
+                                            Download
+                                        </Button>
+                                    </Stack>
+                                )}
                             </Stack>
                         </Stack>
-                        <ClosureCard />
+
+                        <ClosureCard userRole={session.user.role} />
 
                         <PostTable />
                     </Stack>

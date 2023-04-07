@@ -98,7 +98,7 @@ const Page = ({ error }) => {
     return (
         <>
             <Meta
-                title={'Overview | Compact-Idea'}
+                title={'Overview'}
                 description={'This is the overview page'}
             />
 

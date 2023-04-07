@@ -36,7 +36,7 @@ const CategoriesPage = ({ error }) => {
 
     return (
         <>
-            <Meta title={'Categories | Compact-Idea'} />
+            <Meta title={'Categories'} />
             <Box
                 component="main"
                 sx={{
@@ -46,31 +46,36 @@ const CategoriesPage = ({ error }) => {
             >
                 <Container maxWidth="xl">
                     <Stack spacing={3}>
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            spacing={4}
-                        >
-                            <div>
-                                <Button
-                                    startIcon={
-                                        <SvgIcon fontSize="small">
-                                            {showAddCategory ? (
-                                                <RemoveIcon />
-                                            ) : (
-                                                <AddIcon />
-                                            )}
-                                        </SvgIcon>
-                                    }
-                                    onClick={() =>
-                                        setShowAddCategory(!showAddCategory)
-                                    }
-                                    variant="contained"
-                                >
-                                    {showAddCategory ? 'Hide' : 'Add Category'}
-                                </Button>
-                            </div>
-                        </Stack>
+                        {session?.user?.role == 'admin' ||
+                        session?.user?.role == 'qaManager' ? (
+                            <Stack
+                                direction="row"
+                                justifyContent="space-between"
+                                spacing={4}
+                            >
+                                <div>
+                                    <Button
+                                        startIcon={
+                                            <SvgIcon fontSize="small">
+                                                {showAddCategory ? (
+                                                    <RemoveIcon />
+                                                ) : (
+                                                    <AddIcon />
+                                                )}
+                                            </SvgIcon>
+                                        }
+                                        onClick={() =>
+                                            setShowAddCategory(!showAddCategory)
+                                        }
+                                        variant="contained"
+                                    >
+                                        {showAddCategory
+                                            ? 'Hide'
+                                            : 'Add Category'}
+                                    </Button>
+                                </div>
+                            </Stack>
+                        ) : null}
 
                         {showAddCategory && (
                             <div>
@@ -85,7 +90,7 @@ const CategoriesPage = ({ error }) => {
                                 </Grid>
                             </div>
                         )}
-                        <CategoryDataGrid />
+                        <CategoryDataGrid userRole={session?.user?.role} />
                     </Stack>
                 </Container>
             </Box>

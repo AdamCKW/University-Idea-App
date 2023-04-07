@@ -24,7 +24,7 @@ import Loading from '@/components/Loading';
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-export default function ClosureCard() {
+export default function ClosureCard({ userRole }) {
     const [showAddClosure, setShowAddClosure] = useState(false);
     const [showEditClosure, setShowEditClosure] = useState(false);
     const [showDeleteClosure, setShowDeleteClosure] = useState(false);
@@ -120,45 +120,49 @@ export default function ClosureCard() {
                 />
             )}
 
-            <CardActions>
-                <Button
-                    variant="contained"
-                    startIcon={
-                        <SvgIcon fontSize="small">
-                            <AddIcon />
-                        </SvgIcon>
-                    }
-                    onClick={() => setShowAddClosure(!showAddClosure)}
-                >
-                    Add
-                </Button>
-
-                {Closure && (
+            {userRole == 'admin' && (
+                <CardActions>
                     <Button
+                        variant="contained"
                         startIcon={
                             <SvgIcon fontSize="small">
-                                <EditIcon />
+                                <AddIcon />
                             </SvgIcon>
                         }
-                        onClick={() => setShowEditClosure(!showEditClosure)}
+                        onClick={() => setShowAddClosure(!showAddClosure)}
                     >
-                        Edit
+                        Add
                     </Button>
-                )}
 
-                {Closure && (
-                    <Button
-                        startIcon={
-                            <SvgIcon fontSize="small">
-                                <DeleteIcon />
-                            </SvgIcon>
-                        }
-                        onClick={() => setShowDeleteClosure(!showDeleteClosure)}
-                    >
-                        Remove
-                    </Button>
-                )}
-            </CardActions>
+                    {Closure && (
+                        <Button
+                            startIcon={
+                                <SvgIcon fontSize="small">
+                                    <EditIcon />
+                                </SvgIcon>
+                            }
+                            onClick={() => setShowEditClosure(!showEditClosure)}
+                        >
+                            Edit
+                        </Button>
+                    )}
+
+                    {Closure && (
+                        <Button
+                            startIcon={
+                                <SvgIcon fontSize="small">
+                                    <DeleteIcon />
+                                </SvgIcon>
+                            }
+                            onClick={() =>
+                                setShowDeleteClosure(!showDeleteClosure)
+                            }
+                        >
+                            Remove
+                        </Button>
+                    )}
+                </CardActions>
+            )}
         </Card>
     );
 }

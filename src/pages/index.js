@@ -31,7 +31,7 @@ const Page = () => {
     return (
         <>
             <Meta
-                title={'Home | Compact-Idea'}
+                title={'Home | Feed'}
                 description="This is the home page of the list of ideas posted"
             />
             <PostProvider>
