@@ -119,7 +119,7 @@ export const UserRegisterMulti = async (req, res) => {
 };
 
 export const UpdateUser = async (req, res) => {
-    const { userId, password, dateOfBirth } = req.body;
+    const { userId, password, name, dateOfBirth } = req.body;
     const { id } = req.query;
 
     try {
@@ -133,6 +133,13 @@ export const UpdateUser = async (req, res) => {
 
         if (userId !== id && currentUser.role !== 'admin') {
             return res.status(403).json(`You can only update your account!`);
+        }
+
+        switch (restrictedNames.includes(name)) {
+            case true:
+                return res.status(400).json('Name not allowed');
+            default:
+                break;
         }
 
         if (password) {
