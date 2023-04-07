@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import {
+    Button,
+    TextField,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    MenuItem,
+    Checkbox,
+    Grid,
+    Box,
+    FormGroup,
+    FormControlLabel,
+    createTheme,
+    ThemeProvider,
+} from '@mui/material';
+
 import { useFormik } from 'formik';
 import { update_post_validate } from '@/utils/validate';
 import { useSWRConfig } from 'swr';
@@ -104,6 +110,7 @@ function Form({ userId, post, setDialog, dialog }) {
                                 Boolean(formik.errors.title)
                             }
                             helperText={formik.errors.title}
+                            inputProps={{ maxLength: 50 }}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -132,6 +139,7 @@ function Form({ userId, post, setDialog, dialog }) {
                                 Boolean(formik.errors.desc)
                             }
                             helperText={formik.errors.desc}
+                            inputProps={{ maxLength: 1000 }}
                         />
                     </Grid>
 

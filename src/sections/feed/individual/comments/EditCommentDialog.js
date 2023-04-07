@@ -113,13 +113,14 @@ function Form({ userId, comment, setDialog, dialog, postId }) {
                             fullWidth
                             id="comment"
                             label="Comment"
-                            name="title"
+                            name="comment"
                             {...formik.getFieldProps('comment')}
                             error={
                                 formik.touched.comment &&
                                 Boolean(formik.errors.comment)
                             }
                             helperText={formik.errors.comment}
+                            inputProps={{ maxLength: 200 }}
                         />
                     </Grid>
 
