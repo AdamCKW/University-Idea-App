@@ -14,29 +14,23 @@ export const DownloadPostData = async (req, res) => {
         const posts = await Post.find()
             .populate({
                 path: 'author',
-                select: '-password -dateOfBirth -role -createdAt -updatedAt -__v',
-            })
-            .populate({
-                path: 'category',
-                select: '-startDate -endDate -createdAt -updatedAt -__v',
-            })
-            .populate({
-                path: 'comments',
-                select: '-updatedAt -__v',
+                select: 'name -_id',
             })
             .select('-documents -images -updatedAt -__v');
 
         const formattedPosts = posts.map((post) => {
-            const { likes, dislikes, ...rest } = post.toJSON();
-
+            const { likes, dislikes, comments, author, ...rest } =
+                post.toJSON();
             return {
                 ...rest,
+                author: author.name,
                 likes: likes.length,
                 dislikes: dislikes.length,
+                comments: comments.length,
             };
         });
 
-        const fields = Object.keys(formattedPosts[1]);
+        const fields = Object.keys(formattedPosts[0]);
         const opts = { fields };
         const parser = new Parser(opts);
         const csv = parser.parse(formattedPosts);
@@ -49,20 +43,74 @@ export const DownloadPostData = async (req, res) => {
     }
 };
 
+// export const GetAllUploads = async (req, res) => {
+//     try {
+//         const zip = new JSZip();
+//         const files = await gfs.find({}).toArray();
+//         const fileIDs = files.map((file) => file._id);
+
+//         for (const fileId of fileIDs) {
+//             const _id = new mongoose.Types.ObjectId(fileId);
+//             const [file] = await gfs.find({ _id }).toArray();
+//             const downloadStream = gfs.openDownloadStream(_id);
+
+//             const passThroughStream = new PassThrough();
+//             downloadStream.pipe(passThroughStream);
+//             zip.file(file.filename, passThroughStream);
+//         }
+
+//         const zipFile = await zip.generateAsync({ type: 'nodebuffer' });
+
+//         res.setHeader('Content-Type', 'text/plain');
+//         res.setHeader(
+//             'Content-Disposition',
+//             'attachment; filename=uploads.zip'
+//         );
+
+//         res.send(zipFile);
+//     } catch (error) {
+//         return res
+//             .status(500)
+//             .json({ error: true, message: 'Internal Server Error' + error });
+//     }
+// };
+
 export const GetAllUploads = async (req, res) => {
     try {
         const zip = new JSZip();
-        const files = await gfs.find({}).toArray();
-        const fileIDs = files.map((file) => file._id);
 
-        for (const fileId of fileIDs) {
-            const _id = new mongoose.Types.ObjectId(fileId);
-            const [file] = await gfs.find({ _id }).toArray();
-            const downloadStream = gfs.openDownloadStream(_id);
+        const posts = await Post.find({
+            $or: [
+                { images: { $exists: true, $ne: [] } },
+                { documents: { $exists: true, $ne: [] } },
+            ],
+        });
 
-            const passThroughStream = new PassThrough();
-            downloadStream.pipe(passThroughStream);
-            zip.file(file.filename, passThroughStream);
+        for (const post of posts) {
+            for (const image of post.images) {
+                const _id = new mongoose.Types.ObjectId(image);
+                const [file] = await gfs.find({ _id }).toArray();
+                const downloadStream = gfs.openDownloadStream(_id);
+
+                const passThroughStream = new PassThrough();
+                downloadStream.pipe(passThroughStream);
+                zip.file(
+                    `(Post_Id-${post._id})_${file.filename}`,
+                    passThroughStream
+                );
+            }
+
+            for (const document of post.documents) {
+                const _id = new mongoose.Types.ObjectId(document);
+                const [file] = await gfs.find({ _id }).toArray();
+                const downloadStream = gfs.openDownloadStream(_id);
+                const passThroughStream = new PassThrough();
+                downloadStream.pipe(passThroughStream);
+                zip.file(
+                    `(Post_Id-${post._id})_${file.filename}`,
+                    passThroughStream
+                );
+            }
         }
 
         const zipFile = await zip.generateAsync({ type: 'nodebuffer' });

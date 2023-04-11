@@ -42,6 +42,12 @@ export default async function handler(req, res) {
     await connectDatabase();
     // const gfs = new GridFSBucket(db, { bucketName: 'uploads' });
 
+    const session = await getServerSession(req, res, authOptions);
+
+    if (!session) {
+        return res.status(401).json('You must be logged in.');
+    }
+
     const _id = new mongoose.Types.ObjectId(id);
 
     // retrieve the file from GridFSBucket

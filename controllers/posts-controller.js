@@ -7,6 +7,8 @@ import { sendEmail } from '@/utils/sendEmail';
 import { GridFsStorage } from 'multer-gridfs-storage';
 import multer from 'multer';
 import { connectDatabase, gfs } from '@/utils/mongodb';
+import { v4 as uuidv4 } from 'uuid';
+
 const mongoose = require('mongoose');
 
 /* Creating a new GridFsStorage object. */
@@ -23,14 +25,16 @@ const storage = new GridFsStorage({
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ];
 
+        const postId = req.params.postId;
+
         if (match.indexOf(file.mimetype) === -1) {
-            const filename = `${Date.now()}-any-${file.originalname}`;
+            const filename = `${uuidv4()}-any-${file.originalname}`;
             return filename;
         }
 
         return {
             bucketName: 'uploads',
-            filename: `${Date.now()}-${file.originalname}`,
+            filename: `${uuidv4()}-${file.originalname}`,
         };
     },
 });
@@ -452,6 +456,71 @@ export const PostAndUpload = async (req, res) => {
         return res.status(500).json(`Internal Server Error: ${err}`);
     }
 };
+
+// export const PostAndUpload = async (req, res) => {
+//     await connectDatabase();
+//     try {
+//         upload.any()(req, res, async (err) => {
+//             if (err) {
+//                 return res.status(500).json(`Error uploading files: ${err}`);
+//             }
+
+//             let documents = [];
+//             documents = req.files.filter((file) =>
+//                 file.fieldname.includes('documents')
+//             );
+
+//             let images = [];
+//             images = req.files.filter((file) =>
+//                 file.fieldname.includes('images')
+//             );
+
+//             const closureDates = await Closure.findOne();
+//             if (!closureDates) {
+//                 await deleteFiles(images.map((file) => file.id));
+//                 await deleteFiles(documents.map((file) => file.id));
+
+//                 return res.status(400).json('Idea submissions are not open');
+//             }
+
+//             const today = new Date().toISOString();
+//             const start = new Date(closureDates.startDate).toISOString();
+//             const initial = new Date(
+//                 closureDates.initialClosureDate
+//             ).toISOString();
+//             const final = new Date(closureDates.finalClosureDate).toISOString();
+
+//             if (start > today) {
+//                 await deleteFiles(images.map((file) => file.id));
+//                 await deleteFiles(documents.map((file) => file.id));
+
+//                 return res.status(400).json('Idea submissions are not open');
+//             }
+
+//             if (today > initial || today > final) {
+//                 await deleteFiles(images.map((file) => file.id));
+//                 await deleteFiles(documents.map((file) => file.id));
+
+//                 return res.status(400).json('Idea submissions are closed');
+//             }
+
+//             //Create new post with uploaded documents and images
+//             const newPost = await Post.create({
+//                 title: req.body.title,
+//                 desc: req.body.desc,
+//                 author: req.body.author,
+//                 category: req.body.category,
+//                 documents: documents.map((file) => file.id),
+//                 images: images.map((file) => file.id),
+//                 isAuthHidden: req.body.isAuthHidden,
+//             });
+
+//             return res.status(200).json(newPost);
+//         });
+//     } catch (err) {
+//         return res.status(500).json(`Internal Server Error: ${err}`);
+//     }
+// };
 
 /**
  * It updates a post by its id and the userId of the author
