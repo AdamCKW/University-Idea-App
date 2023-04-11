@@ -110,6 +110,10 @@ export const UserRegister = async (req, res) => {
 };
 
 export const UserRegisterMulti = async (req, res) => {
+    if (req.headers.authorization !== process.env.REGISTER_SECRET) {
+        return res.status(401).json({ error: 'You are not authorized' });
+    }
+
     try {
         const savedUsers = [];
 
