@@ -56,7 +56,8 @@ const PostsPage = ({ error }) => {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">Posts</Typography>
-                                {session.user.role == 'admin' && (
+                                {session?.user?.role == 'admin' ||
+                                session?.user?.role == 'qaManager' ? (
                                     <Stack
                                         alignItems="center"
                                         direction="row"
@@ -90,7 +91,7 @@ const PostsPage = ({ error }) => {
                                             Download
                                         </Button>
                                     </Stack>
-                                )}
+                                ) : null}
                             </Stack>
                         </Stack>
 
