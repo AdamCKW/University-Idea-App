@@ -16,17 +16,32 @@ export const DownloadPostData = async (req, res) => {
                 path: 'author',
                 select: 'name -_id',
             })
-            .select('-documents -images -updatedAt -__v');
+            .populate({
+                path: 'category',
+                select: 'name -_id',
+            })
+            .select(
+                '-isAuthHidden -documents -images -createdAt -updatedAt -__v'
+            );
 
         const formattedPosts = posts.map((post) => {
-            const { likes, dislikes, comments, author, ...rest } =
-                post.toJSON();
+            const {
+                likes,
+                dislikes,
+                views,
+                comments,
+                author,
+                category,
+                ...rest
+            } = post.toJSON();
             return {
                 ...rest,
+                category: category.name,
                 author: author.name,
                 likes: likes.length,
                 dislikes: dislikes.length,
                 comments: comments.length,
+                views,
             };
         });
 
