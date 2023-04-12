@@ -54,7 +54,7 @@ const PostDetail = ({ postData, formattedDate }) => {
     return (
         <>
             <Meta
-                title={`Post | ${title}`}
+                title={`${title} | Compact Ideas`}
                 description={'This is a single post'}
             />
             <Box

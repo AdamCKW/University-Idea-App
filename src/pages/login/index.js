@@ -72,7 +72,10 @@ const LoginPage = () => {
 
     return (
         <>
-            <Meta title={'Login'} description={'This is a login page.'} />
+            <Meta
+                title={'Login | Compact Ideas'}
+                description={'This is a login page.'}
+            />
 
             <Box
                 sx={{

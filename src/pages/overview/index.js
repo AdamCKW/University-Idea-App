@@ -15,6 +15,7 @@ import { CommentsPerWeek } from '@/sections/overview/comments-per-week';
 import { NotActivePosts } from '@/sections/overview/not-active-posts';
 import { AnonymousPosts } from '@/sections/overview/anony-posts';
 import { AnonymousComments } from '@/sections/overview/anony-comments';
+import Loading from '@/components/Loading';
 import Meta from '@/components/meta';
 import { getSession, useSession } from 'next-auth/react';
 import moment from 'moment';
@@ -43,14 +44,7 @@ const Page = ({ error }) => {
         refreshInterval: 300000,
     });
 
-    if (isLoading)
-        return (
-            <Card>
-                <CardContent>
-                    <h3>Loading Data</h3>
-                </CardContent>
-            </Card>
-        );
+    if (isLoading) return <Loading />;
 
     if (DataError)
         return (
@@ -98,7 +92,7 @@ const Page = ({ error }) => {
     return (
         <>
             <Meta
-                title={'Overview'}
+                title={'Overview | Compact Ideas'}
                 description={'This is the overview page'}
             />
 
