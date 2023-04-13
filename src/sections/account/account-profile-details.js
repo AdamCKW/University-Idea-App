@@ -66,8 +66,9 @@ export const AccountProfileDetails = ({ user }) => {
                 setOpenModal={setOpenModal}
                 openModal={openModal}
             />
-            <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
-                <Card>
+
+            <Card>
+                <Box component="form" noValidate onSubmit={formik.handleSubmit}>
                     <CardHeader
                         subheader="The information can be edited"
                         title="Profile"
@@ -202,10 +203,12 @@ export const AccountProfileDetails = ({ user }) => {
                     </CardContent>
                     <Divider />
                     <CardActions sx={{ justifyContent: 'flex-end' }}>
-                        <Button variant="contained">Save details</Button>
+                        <Button type="submit" variant="contained">
+                            Save details
+                        </Button>
                     </CardActions>
-                </Card>
-            </form>
+                </Box>
+            </Card>
         </>
     );
 };
