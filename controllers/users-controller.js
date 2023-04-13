@@ -161,6 +161,14 @@ export const UpdateUser = async (req, res) => {
                 break;
         }
 
+        const dob = parseISO(dateOfBirth);
+        const age = differenceInYears(new Date(), dob);
+        if (age < 17) {
+            return res
+                .status(400)
+                .json('Users must be at least 17 years old to be added.');
+        }
+
         if (password) {
             const salt = await bcrypt.genSalt(10);
             req.body.password = await bcrypt.hash(req.body.password, salt);
