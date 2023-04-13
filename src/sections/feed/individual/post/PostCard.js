@@ -140,6 +140,7 @@ function Item(props) {
     return (
         <Paper sx={{ height: '400px', position: 'relative' }}>
             <Image
+                loader={() => url}
                 src={url}
                 alt={filename}
                 fill
