@@ -25,8 +25,6 @@ const storage = new GridFsStorage({
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ];
 
-        const postId = req.params.postId;
-
         if (match.indexOf(file.mimetype) === -1) {
             const filename = `${uuidv4()}-any-${file.originalname}`;
             return filename;
