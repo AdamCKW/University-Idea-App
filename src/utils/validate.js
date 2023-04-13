@@ -9,6 +9,7 @@ import {
     isBefore,
     areEqual,
     isSameDay,
+    startOfToday,
 } from 'date-fns';
 
 export default function login_validate(values) {
@@ -276,7 +277,7 @@ export function add_closure_validate(values) {
 
     const parsedInitialClosureDate = new Date(values.initialClosureDate);
     if (
-        isBefore(parsedInitialClosureDate, new Date()) ||
+        isBefore(parsedInitialClosureDate, startOfToday()) ||
         isAfter(parsedInitialClosureDate, add(new Date(), { years: 1 }))
     ) {
         errors.initialClosureDate =
@@ -289,7 +290,7 @@ export function add_closure_validate(values) {
 
     const parsedFinalClosureDate = new Date(values.finalClosureDate);
     if (
-        isBefore(parsedFinalClosureDate, new Date()) ||
+        isBefore(parsedFinalClosureDate, startOfToday()) ||
         isAfter(parsedFinalClosureDate, add(new Date(), { years: 1 }))
     ) {
         errors.finalClosureDate =

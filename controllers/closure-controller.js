@@ -9,6 +9,7 @@ import {
     isBefore,
     areEqual,
     isSameDay,
+    startOfToday,
 } from 'date-fns';
 
 export const GetClosureDate = async (req, res) => {
@@ -52,7 +53,7 @@ export const AddClosureDate = async (req, res) => {
         // Validate initial closure date
         const parsedInitialClosureDate = new Date(initialClosureDate);
         if (
-            isBefore(parsedInitialClosureDate, new Date()) ||
+            isBefore(parsedInitialClosureDate, startOfToday()) ||
             isAfter(parsedInitialClosureDate, add(new Date(), { years: 1 }))
         ) {
             return res
@@ -65,7 +66,7 @@ export const AddClosureDate = async (req, res) => {
         // Validate final closure date
         const parsedFinalClosureDate = new Date(finalClosureDate);
         if (
-            isBefore(parsedFinalClosureDate, new Date()) ||
+            isBefore(parsedFinalClosureDate, startOfToday()) ||
             isAfter(parsedFinalClosureDate, add(new Date(), { years: 1 }))
         ) {
             return res
@@ -144,7 +145,7 @@ export const UpdateClosureDate = async (req, res) => {
 
         if (!isSameDay(existingInitialClosureDate, newInitialClosureDate)) {
             if (
-                isBefore(newInitialClosureDate, new Date()) ||
+                isBefore(newInitialClosureDate, startOfToday()) ||
                 isAfter(newInitialClosureDate, add(new Date(), { years: 1 }))
             ) {
                 return res
@@ -157,7 +158,7 @@ export const UpdateClosureDate = async (req, res) => {
 
         if (!isSameDay(existingFinalClosureDate, newFinalClosureDate)) {
             if (
-                isBefore(newFinalClosureDate, new Date()) ||
+                isBefore(newFinalClosureDate, startOfToday()) ||
                 isAfter(newFinalClosureDate, add(new Date(), { years: 1 }))
             ) {
                 return res

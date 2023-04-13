@@ -119,8 +119,7 @@ export default function ClosureCard({ userRole }) {
                     showDeleteClosure={showDeleteClosure}
                 />
             )}
-
-            {userRole == 'admin' && (
+            {userRole == 'admin' || userRole == 'qaManager' ? (
                 <CardActions>
                     {!Closure && (
                         <Button
@@ -148,7 +147,6 @@ export default function ClosureCard({ userRole }) {
                             Edit
                         </Button>
                     )}
-
                     {Closure && (
                         <Button
                             startIcon={
@@ -164,7 +162,7 @@ export default function ClosureCard({ userRole }) {
                         </Button>
                     )}
                 </CardActions>
-            )}
+            ) : null}
         </Card>
     );
 }
