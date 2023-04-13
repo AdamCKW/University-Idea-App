@@ -122,17 +122,19 @@ export default function ClosureCard({ userRole }) {
 
             {userRole == 'admin' && (
                 <CardActions>
-                    <Button
-                        variant="contained"
-                        startIcon={
-                            <SvgIcon fontSize="small">
-                                <AddIcon />
-                            </SvgIcon>
-                        }
-                        onClick={() => setShowAddClosure(!showAddClosure)}
-                    >
-                        Add
-                    </Button>
+                    {!Closure && (
+                        <Button
+                            variant="contained"
+                            startIcon={
+                                <SvgIcon fontSize="small">
+                                    <AddIcon />
+                                </SvgIcon>
+                            }
+                            onClick={() => setShowAddClosure(!showAddClosure)}
+                        >
+                            Add
+                        </Button>
+                    )}
 
                     {Closure && (
                         <Button
