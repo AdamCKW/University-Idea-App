@@ -178,6 +178,7 @@ const Page = ({ error }) => {
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;
+
 function getLabelsAndSeries(
     departments,
     postsByDepartment,
@@ -222,7 +223,7 @@ function getLabelsAndSeries(
 
     const seriesPostsPerWeek = [
         {
-            Name: 'Number of posts',
+            name: 'Number of posts',
             data: Array.from(
                 { length: lastWeekOfMonth - firstWeekOfMonth + 1 },
                 (_, i) => {
@@ -237,7 +238,7 @@ function getLabelsAndSeries(
 
     const seriesCommentsPerWeek = [
         {
-            Name: 'Number of comments',
+            name: 'Number of comments',
             data: Array.from(
                 { length: lastWeekOfMonth - firstWeekOfMonth + 1 },
                 (_, i) => {
@@ -252,7 +253,7 @@ function getLabelsAndSeries(
 
     const seriesNotActivePosts = [
         {
-            Name: 'Number of posts',
+            name: 'Number of posts',
             data: Array.from(
                 { length: lastWeekOfMonth - firstWeekOfMonth + 1 },
                 (_, i) => {
@@ -267,7 +268,7 @@ function getLabelsAndSeries(
 
     const seriesAnonymousPostsPerWeek = [
         {
-            Name: 'Number of posts',
+            name: 'Number of posts',
             data: Array.from(
                 { length: lastWeekOfMonth - firstWeekOfMonth + 1 },
                 (_, i) => {
@@ -282,7 +283,7 @@ function getLabelsAndSeries(
 
     const seriesAnonymousCommentsPerWeek = [
         {
-            Name: 'Number of comments',
+            name: 'Number of comments',
             data: Array.from(
                 { length: lastWeekOfMonth - firstWeekOfMonth + 1 },
                 (_, i) => {
