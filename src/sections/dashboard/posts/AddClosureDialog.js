@@ -14,7 +14,7 @@ import {
     Grid,
     Box,
 } from '@mui/material';
-import { closure_validate } from '@/utils/validate';
+import { add_closure_validate } from '@/utils/validate';
 import { useAlertContext } from '@/context/alert-context';
 import { getSession, useSession } from 'next-auth/react';
 
@@ -31,7 +31,7 @@ export default function AddClosure({ showAddClosure, setShowAddClosure }) {
             initialClosureDate: '',
             finalClosureDate: '',
         },
-        validate: closure_validate,
+        validate: add_closure_validate,
         onSubmit,
     });
 
