@@ -4,6 +4,19 @@ import Post from 'models/Post';
 import User from 'models/User';
 import { sendEmail } from '@/utils/sendEmail';
 
+export const FindAllComments = async (req, res) => {
+    try {
+        const comments = await Comment.find().populate({
+            path: 'author',
+            select: '-password -dateOfBirth -role -createdAt -updatedAt',
+        });
+
+        return res.status(200).json(comments);
+    } catch (error) {
+        return res.status(500).json(`Internal Server Error: ${error}`);
+    }
+};
+
 export const AddComment = async (req, res) => {
     const { id } = req.query;
     const { comment, author, isAuthHidden } = req.body;
@@ -219,5 +232,18 @@ export const HideComment = async (req, res) => {
         return res.status(200).json('Comment updated');
     } catch (error) {
         return res.status(500).json(`Internal Server Error: ${error}`);
+    }
+};
+
+export const DeleteMultiComments = async (req, res) => {
+    const CommentIds = req.body;
+    try {
+        await Comment.deleteMany({
+            _id: { $in: CommentIds },
+        });
+
+        return res.status(200).json('Comments deleted');
+    } catch (error) {
+        return res.status(500).json('Internal Server Error');
     }
 };
