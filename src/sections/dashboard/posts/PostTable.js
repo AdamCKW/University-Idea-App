@@ -193,7 +193,8 @@ function ActionsButton({ selectedPosts }) {
                 title={`Delete Post?`}
                 confirmLabel="Delete"
             >
-                Are you sure you want to delete selected post?
+                Are you sure you want to delete selected posts? This is
+                permanent and cannot be reverted.
             </ConfirmationDialog>
         </div>
     );
