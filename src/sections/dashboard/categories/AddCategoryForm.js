@@ -34,6 +34,14 @@ export default function AddCategory({ setShowAddCategory }) {
     });
 
     async function onSubmit(values) {
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +49,7 @@ export default function AddCategory({ setShowAddCategory }) {
         };
 
         try {
-            await axios.post('/api/categories', values, options);
+            await axios.post('/api/categories', trimmedValues, options);
             mutate('/api/categories');
             setAlertMessage('Category Added Successfully');
             setIsError(false);

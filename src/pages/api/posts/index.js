@@ -16,13 +16,13 @@ export default async function handler(req, res) {
         return FindAllPosts(req, res);
     }
 
-    if (!session?.user?.role === 'admin') {
+    if (session?.user?.role !== 'admin') {
         return res
             .status(401)
             .json('You do not have permission to perform this action.');
     }
 
     if (req.method === 'DELETE') {
-        DeleteMultiPost(req, res);
+        return DeleteMultiPost(req, res);
     }
 }

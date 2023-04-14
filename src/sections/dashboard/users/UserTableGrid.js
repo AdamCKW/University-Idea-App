@@ -206,7 +206,7 @@ function ActionsButton({ selectedUsers }) {
             setIsError(false);
             setAlertOpen(true);
         } catch (error) {
-            setMessage(error.response.data);
+            setAlertMessage(error.response.data);
             setIsError(true);
             setAlertOpen(true);
         }

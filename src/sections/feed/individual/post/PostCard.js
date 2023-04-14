@@ -24,7 +24,7 @@ import Image from 'next/image';
 export default function PostCard({ post, setShowForm, userId, showForm }) {
     const theme = useTheme();
     const [isUserAuthorized, setIsUserAuthorized] = useState(false);
-    const { title, author, desc, isAuthHidden, createdAt } = post.post;
+    const { title, author, desc, isAuthHidden, createdAt, deleted } = post.post;
     const [dialog, setDialog] = useState(false);
 
     useEffect(() => {
@@ -41,7 +41,11 @@ export default function PostCard({ post, setShowForm, userId, showForm }) {
             }}
         >
             <CardHeader
-                title={<Typography variant="h5">{title}</Typography>}
+                title={
+                    <Typography variant="h5">
+                        {deleted ? 'Deleted Idea Post' : title}
+                    </Typography>
+                }
                 subheader={
                     <div
                         style={{
@@ -50,7 +54,9 @@ export default function PostCard({ post, setShowForm, userId, showForm }) {
                         }}
                     >
                         <div>
-                            {isAuthHidden
+                            {deleted
+                                ? 'Post Deleted'
+                                : isAuthHidden
                                 ? 'Anonymous'
                                 : author
                                 ? author.name
@@ -61,45 +67,53 @@ export default function PostCard({ post, setShowForm, userId, showForm }) {
                     </div>
                 }
                 action={
-                    isUserAuthorized && (
+                    isUserAuthorized && !deleted ? (
                         <DropDownButton
                             userId={userId}
                             post={post.post}
                             setDialog={setDialog}
                         />
-                    )
+                    ) : null
                 }
             />
 
             <CardContent>
-                <Typography variant="body">{desc}</Typography>
+                <Typography variant="body">
+                    {deleted ? 'Deleted' : desc}
+                </Typography>
 
-                <ImageCarousel items={post.images} />
+                {deleted ? null : (
+                    <div>
+                        <ImageCarousel items={post.images} />
 
-                {post.documents.map((doc, i) => {
-                    const { _id, filename, url } = doc;
-                    return (
-                        <Box key={i} marginTop={1}>
-                            <Chip
-                                icon={<DownloadIcon />}
-                                label={filename}
-                                component="a"
-                                href={url}
-                                clickable
-                                rel="noopener noreferrer"
-                                target="_blank"
-                            />
-                        </Box>
-                    );
-                })}
+                        {post.documents.map((doc, i) => {
+                            const { _id, filename, url } = doc;
+                            return (
+                                <Box key={i} marginTop={1}>
+                                    <Chip
+                                        icon={<DownloadIcon />}
+                                        label={filename}
+                                        component="a"
+                                        href={url}
+                                        clickable
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                    />
+                                </Box>
+                            );
+                        })}
+                    </div>
+                )}
             </CardContent>
 
-            <ButtonLayout
-                post={post}
-                userId={userId}
-                setShowForm={setShowForm}
-                showForm={showForm}
-            />
+            {!deleted && (
+                <ButtonLayout
+                    post={post}
+                    userId={userId}
+                    setShowForm={setShowForm}
+                    showForm={showForm}
+                />
+            )}
 
             {dialog && (
                 <EditDialog

@@ -1,5 +1,5 @@
 import { connectDatabase } from '@/utils/mongodb';
-import { DeletePost } from 'controllers/posts-controller';
+import { DeletePost, HidePost } from 'controllers/posts-controller';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 
@@ -12,7 +12,11 @@ export default async function handler(req, res) {
         return res.status(401).json('You must be logged in.');
     }
 
-    if (req.method === 'DELETE') {
-        return DeletePost(req, res);
+    // if (req.method === 'DELETE') {
+    //     return DeletePost(req, res);
+    // }
+
+    if (req.method === 'PUT') {
+        return HidePost(req, res);
     }
 }

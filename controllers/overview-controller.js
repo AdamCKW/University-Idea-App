@@ -39,6 +39,11 @@ export const GetOverview = async (req, res) => {
             },
             { $unwind: '$author' },
             {
+                $match: {
+                    deleted: false,
+                },
+            },
+            {
                 $group: {
                     _id: '$author.department',
                     post_count: { $sum: 1 },
@@ -54,6 +59,20 @@ export const GetOverview = async (req, res) => {
         ]);
 
         const topCommentsByPost = await Post.aggregate([
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
+                },
+            },
+            { $unwind: '$author' },
+            {
+                $match: {
+                    deleted: false,
+                },
+            },
             {
                 $project: {
                     _id: 0,
@@ -108,11 +127,22 @@ export const GetOverview = async (req, res) => {
 
         const postsPerWeek = await Post.aggregate([
             {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
+                },
+            },
+
+            {
                 $match: {
+                    author: { $ne: [] }, // only keep posts with valid authors
                     createdAt: {
                         $gte: startOfThisMonth,
                         $lte: endOfThisMonth,
                     },
+                    deleted: false,
                 },
             },
             {
@@ -132,11 +162,21 @@ export const GetOverview = async (req, res) => {
 
         const commentsPerWeek = await Comment.aggregate([
             {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
+                },
+            },
+            {
                 $match: {
+                    author: { $ne: [] }, // only keep posts with valid authors
                     createdAt: {
                         $gte: startOfThisMonth,
                         $lte: endOfThisMonth,
                     },
+                    deleted: false,
                 },
             },
             {
@@ -156,12 +196,22 @@ export const GetOverview = async (req, res) => {
 
         const notActivePosts = await Post.aggregate([
             {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
+                },
+            },
+            {
                 $match: {
+                    author: { $ne: [] }, // only keep posts with valid authors
                     comments: { $exists: true, $size: 0 },
                     createdAt: {
                         $gte: startOfThisMonth,
                         $lte: endOfThisMonth,
                     },
+                    deleted: false,
                 },
             },
             {
@@ -181,12 +231,22 @@ export const GetOverview = async (req, res) => {
 
         const anonymousPostsPerWeek = await Post.aggregate([
             {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
+                },
+            },
+            {
                 $match: {
+                    author: { $ne: [] }, // only keep posts with valid authors
                     createdAt: {
                         $gte: startOfThisMonth,
                         $lte: endOfThisMonth,
                     },
                     isAuthHidden: true,
+                    deleted: false,
                 },
             },
             {
@@ -206,15 +266,24 @@ export const GetOverview = async (req, res) => {
 
         const anonymousCommentsPerWeek = await Comment.aggregate([
             {
+                $lookup: {
+                    from: 'users',
+                    localField: 'author',
+                    foreignField: '_id',
+                    as: 'author',
+                },
+            },
+            {
                 $match: {
+                    author: { $ne: [] }, // only keep posts with valid authors
                     createdAt: {
                         $gte: startOfThisMonth,
                         $lte: endOfThisMonth,
                     },
                     isAuthHidden: true,
+                    deleted: false,
                 },
             },
-
             {
                 $group: {
                     _id: { $week: '$createdAt' },

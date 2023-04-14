@@ -54,11 +54,19 @@ const LoginPage = () => {
     });
 
     async function onSubmit(values) {
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
         const status = await signIn('credentials', {
             redirect: false,
-            id: values.id,
-            email: values.email,
-            password: values.password,
+            id: trimmedValues.id,
+            email: trimmedValues.email,
+            password: trimmedValues.password,
             callbackUrl: '/',
         });
         if (status.ok) {
@@ -72,10 +80,7 @@ const LoginPage = () => {
 
     return (
         <>
-            <Meta
-                title={'Login | Compact Ideas'}
-                description={'This is a login page.'}
-            />
+            <Meta title={'Login | Compact Ideas'} description={'This is a login page.'} />
 
             <Box
                 sx={{

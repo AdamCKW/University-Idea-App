@@ -116,22 +116,38 @@ export const UserRegisterMulti = async (req, res) => {
 
     try {
         const savedUsers = [];
+        const AlreadyExist = [];
 
         for (let i = 0; i < req.body.length; i++) {
             const user = req.body[i];
-            const newUser = new User({
-                name: user.name,
-                email: user.email,
-                password: await bcrypt.hash(user.password, 12),
-                role: user.role,
-                dateOfBirth: user.dateOfBirth,
-                department: user.department,
-            });
-            const savedUser = await newUser.save();
-            savedUsers.push(savedUser);
-        }
 
-        return res.status(200).json(savedUsers);
+            const { name, email, password, role, dateOfBirth, department } =
+                user;
+
+            const existingUser = await User.findOne({ email });
+
+            if (existingUser) {
+                notSavedUsers.push(user);
+            } else {
+                const newUser = new User({
+                    name: name,
+                    email: email,
+                    password: await bcrypt.hash(password, 12),
+                    role: role,
+                    dateOfBirth: dateOfBirth,
+                    department: department,
+                });
+
+                const savedUser = await newUser.save();
+                savedUsers.push(savedUser);
+            }
+        }
+        const result = {
+            savedUsers,
+            notSavedUsers,
+        };
+
+        return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json(`Internal Server Error: ${error}`);
     }
@@ -222,32 +238,32 @@ export const DeleteMultipleUsers = async (req, res) => {
 
     try {
         // const posts = await Post.find({ author: { $in: ids } });
-        const postIds = await Post.find({ author: { $in: ids } })
-            .select('_id')
-            .lean()
-            .then((posts) => posts.map((post) => post._id));
+        // const postIds = await Post.find({ author: { $in: ids } })
+        //     .select('_id')
+        //     .lean()
+        //     .then((posts) => posts.map((post) => post._id));
 
-        const result = await Promise.all(
-            postIds.map(async (id) => {
-                const post = await Post.findById(id);
-                if (!post) {
-                    return {
-                        message: `Post with id ${id} not found`,
-                    };
-                }
-                await deleteFiles(post.images.map((file) => file));
-                await deleteFiles(post.documents.map((file) => file));
+        // const result = await Promise.all(
+        //     postIds.map(async (id) => {
+        //         const post = await Post.findById(id);
+        //         if (!post) {
+        //             return {
+        //                 message: `Post with id ${id} not found`,
+        //             };
+        //         }
+        //         await deleteFiles(post.images.map((file) => file));
+        //         await deleteFiles(post.documents.map((file) => file));
 
-                await Comment.deleteMany({
-                    _id: { $in: post.comments },
-                });
-                await post.deleteOne();
+        //         await Comment.deleteMany({
+        //             _id: { $in: post.comments },
+        //         });
+        //         await post.deleteOne();
 
-                return {
-                    message: `Post with id ${id} deleted successfully`,
-                };
-            })
-        );
+        //         return {
+        //             message: `Post with id ${id} deleted successfully`,
+        //         };
+        //     })
+        // );
 
         await User.deleteMany({ _id: { $in: ids } });
 

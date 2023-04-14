@@ -1,5 +1,9 @@
 import { connectDatabase } from '@/utils/mongodb';
-import { UpdateComment, DeleteComment } from 'controllers/comments-controller';
+import {
+    UpdateComment,
+    DeleteComment,
+    HidePost,
+} from 'controllers/comments-controller';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 
@@ -16,6 +20,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'DELETE') {
-        return DeleteComment(req, res);
+        // return DeleteComment(req, res);
+        return HidePost(req, res);
     }
 }

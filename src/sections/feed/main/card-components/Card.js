@@ -9,22 +9,35 @@ export default function PostCard({ userId, post }) {
     const [isUserAuthorized, setIsUserAuthorized] = useState(false);
     const [dialog, setDialog] = useState(false);
 
-    const { title, id, author, createdAt, isAuthHidden, likes, dislikes } =
-        post;
+    const {
+        title,
+        id,
+        author,
+        createdAt,
+        isAuthHidden,
+        likes,
+        dislikes,
+        deleted,
+    } = post;
 
     const formattedDate = getFormatDate(createdAt);
 
     useEffect(() => {
-        if (author !== null) {
+        if (author) {
             const owner = userId === author._id;
             setIsUserAuthorized(owner);
+            console.log(post);
         }
     }, [userId, author]);
 
     return (
         <Card sx={{ my: 2 }}>
             <CardHeader
-                title={<Typography variant="h5">{title}</Typography>}
+                title={
+                    <Typography variant="h5">
+                        {deleted ? 'Deleted Idea Post' : title}
+                    </Typography>
+                }
                 subheader={
                     <div
                         style={{
@@ -33,7 +46,9 @@ export default function PostCard({ userId, post }) {
                         }}
                     >
                         <div>
-                            {isAuthHidden
+                            {deleted
+                                ? 'Post Deleted'
+                                : isAuthHidden
                                 ? 'Anonymous'
                                 : author
                                 ? author.name
@@ -43,13 +58,13 @@ export default function PostCard({ userId, post }) {
                     </div>
                 }
                 action={
-                    isUserAuthorized && (
+                    isUserAuthorized && !deleted ? (
                         <DropDownButton
                             userId={userId}
                             post={post}
                             setDialog={setDialog}
                         />
-                    )
+                    ) : null
                 }
             />
 

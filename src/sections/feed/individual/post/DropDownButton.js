@@ -13,6 +13,7 @@ import {
     MenuItem,
     Stack,
 } from '@mui/material';
+import { useSWRConfig } from 'swr';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useAlertContext } from '@/context/alert-context';
@@ -24,6 +25,7 @@ export default function DropDownButton({ userId, post, setDialog }) {
     const { author, _id } = post;
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const { mutate } = useSWRConfig();
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
@@ -55,14 +57,17 @@ export default function DropDownButton({ userId, post, setDialog }) {
             };
 
             try {
-                await axios.delete(`/api/posts/${_id}`, options);
-                router.push('/');
+                await axios.put(`/api/posts/${_id}/delete`, options);
+                mutate(`/api/posts/${_id}`);
+                setAlertMessage('Post Deleted Successfully');
+                setIsError(false);
+                setAlertOpen(true);
             } catch (error) {
                 setAlertMessage(error.response.data);
                 setIsError(true);
                 setAlertOpen(true);
             }
-            setOpen(false);
+            // setOpen(false);
         }
     };
 

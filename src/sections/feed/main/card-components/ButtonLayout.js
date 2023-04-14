@@ -16,7 +16,7 @@ import Link from 'next/link';
 export default function ButtonLayout({ post, userId }) {
     const { setAlertMessage, setAlertOpen, setIsError } = useAlertContext();
     const { feedUrl } = usePostContext();
-    const { likes, dislikes, author, id, views } = post;
+    const { likes, dislikes, author, id, views, deleted } = post;
 
     const { mutate } = useSWRConfig();
 
@@ -38,6 +38,7 @@ export default function ButtonLayout({ post, userId }) {
                 <IconButton
                     aria-label="like post"
                     onClick={() => handleAction('like')}
+                    disabled={deleted}
                 >
                     <Badge badgeContent={likes} color="primary">
                         <ThumbUpIcon />
@@ -47,6 +48,7 @@ export default function ButtonLayout({ post, userId }) {
                 <IconButton
                     aria-label="dislike post"
                     onClick={() => handleAction('dislike')}
+                    disabled={deleted}
                 >
                     <Badge badgeContent={dislikes} color="primary">
                         <ThumbDownIcon />

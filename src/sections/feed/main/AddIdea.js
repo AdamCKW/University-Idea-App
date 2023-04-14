@@ -67,7 +67,15 @@ export default function AddIdea({ userId, setShowAddPost }) {
     );
 
     async function onSubmit(values, { resetForm }) {
-        setValues(values);
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
+        setValues(trimmedValues);
         setReset(() => resetForm);
         setDialog(true);
     }

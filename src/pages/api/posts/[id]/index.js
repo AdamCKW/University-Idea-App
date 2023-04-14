@@ -6,14 +6,14 @@ import { getServerSession } from 'next-auth/next';
 export default async function handler(req, res) {
     await connectDatabase();
 
-    // const session = await getServerSession(req, res, authOptions);
-
-    // if (!session) {
-    //     return res.status(401).json('You must be logged in.');
-    // }
+    const session = await getServerSession(req, res, authOptions);
 
     if (req.method === 'GET') {
         return FindPost(req, res);
+    }
+
+    if (!session) {
+        return res.status(401).json('You must be logged in.');
     }
 
     if (req.method === 'PUT') {

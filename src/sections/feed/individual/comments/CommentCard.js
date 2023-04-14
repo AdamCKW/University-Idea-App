@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -9,11 +9,17 @@ import EditCommentDialog from '@/sections/feed/individual/comments/EditCommentDi
 
 export default function CommentCard({ comment, userId, postId }) {
     const [dialog, setDialog] = useState(false);
-    const { _id, author, isAuthHidden, createdAt } = comment;
+    const [isUserAuthorized, setIsUserAuthorized] = useState(false);
+    const { _id, author, isAuthHidden, createdAt, deleted } = comment;
 
     const formattedDate = getFormatDate(createdAt);
 
-    const isUserAuthorized = userId === author._id;
+    useEffect(() => {
+        if (author !== null) {
+            const owner = userId === author._id;
+            setIsUserAuthorized(owner);
+        }
+    }, [userId, author]);
 
     return (
         <>
@@ -31,7 +37,13 @@ export default function CommentCard({ comment, userId, postId }) {
                             }}
                         >
                             <Typography variant="h6" color="InfoText">
-                                {isAuthHidden ? 'Anonymous' : author.name}
+                                {deleted
+                                    ? 'Deleted Comment'
+                                    : isAuthHidden
+                                    ? 'Anonymous'
+                                    : author
+                                    ? author.name
+                                    : 'Deleted User'}
                             </Typography>
 
                             <Typography
@@ -43,19 +55,21 @@ export default function CommentCard({ comment, userId, postId }) {
                         </div>
                     }
                     action={
-                        isUserAuthorized && (
+                        isUserAuthorized && !deleted ? (
                             <DropDownButton
                                 userId={userId}
                                 comment={comment}
                                 setDialog={setDialog}
                                 postId={postId}
                             />
-                        )
+                        ) : null
                     }
                 />
 
                 <CardContent>
-                    <Typography variant="body1">{comment.comment}</Typography>
+                    <Typography variant="body1">
+                        {deleted ? 'Deleted Comment' : comment.comment}
+                    </Typography>
                 </CardContent>
 
                 {dialog && (

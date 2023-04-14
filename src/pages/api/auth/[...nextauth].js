@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
+import User from '/models/User';
+import bcrypt from 'bcrypt';
 
 export const authOptions = {
     session: {

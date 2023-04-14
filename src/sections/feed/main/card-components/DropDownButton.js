@@ -51,7 +51,7 @@ export default function DropDownButton({ userId, post, setDialog }) {
             };
 
             try {
-                await axios.delete(`/api/posts/${post.id}`, options);
+                await axios.put(`/api/posts/${post.id}/delete`, options);
                 mutate(feedUrl);
             } catch (error) {
                 setAlertMessage(error.response.data);

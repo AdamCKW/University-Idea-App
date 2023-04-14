@@ -192,7 +192,12 @@ export const FindSortPosts = async (req, res) => {
                     as: 'author',
                 },
             },
-            { $unwind: '$author' },
+            {
+                $unwind: {
+                    path: '$author',
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
             {
                 $lookup: {
                     from: 'categories',
@@ -212,6 +217,7 @@ export const FindSortPosts = async (req, res) => {
                     dislikes_count: { $size: { $ifNull: ['$dislikes', []] } },
                     views: 1,
                     isAuthHidden: 1,
+                    deleted: 1,
                     createdAt: 1,
                     'author._id': 1,
                     'author.name': 1,
@@ -350,10 +356,11 @@ export const PostAndUpload = async (req, res) => {
 
             const userId = req.body.author;
             const categoryId = req.body.category;
-            const author = await User.findById(userId);
             const category = await Category.findById(categoryId);
+            const author = await User.findById(userId);
             const qaCoordinators = await User.find({
                 role: 'qaCoordinator',
+                department: author.department,
             });
 
             const subject = 'New Post Submitted';
@@ -442,11 +449,12 @@ export const PostAndUpload = async (req, res) => {
             </div>
           </body>`;
 
-            const qaCoordinatorEmails = qaCoordinators.map(
-                (manager) => manager.email
-            );
-
-            sendEmail(qaCoordinatorEmails, subject, text, html);
+            if (qaCoordinators) {
+                const qaCoordinatorEmails = qaCoordinators.map(
+                    (manager) => manager.email
+                );
+                sendEmail(qaCoordinatorEmails, subject, text, html);
+            }
 
             return res.status(200).json(newPost);
         });
@@ -573,15 +581,43 @@ export const DeletePost = async (req, res) => {
         await deleteFiles(post.images.map((file) => file));
         await deleteFiles(post.documents.map((file) => file));
 
-        await Comment.deleteMany({
-            _id: { $in: post.comments },
-        });
+        // await Comment.deleteMany({
+        //     _id: { $in: post.comments },
+        // });
 
         await post.deleteOne();
 
         return res.status(200).json('Post Deleted');
     } catch (error) {
         return res.status(500).json(`Internal Server Error: ${error}`);
+    }
+};
+
+export const HidePost = async (req, res) => {
+    const { id } = req.query;
+    const { userId } = req.body.data;
+    try {
+        const post = await Post.findById(id);
+
+        if (!post) {
+            return res.status(404).json('Post not found');
+        }
+
+        if (post.author.toString() !== userId) {
+            console.log(req.body);
+            return res
+                .status(403)
+                .json(
+                    `You can only delete your post ${post.author.toString()} = ${userId}`
+                );
+        }
+
+        post.deleted = true;
+        await post.save();
+
+        return res.status(200).json('The post has been updated');
+    } catch (error) {
+        return res.status(500).json('Internal Server Error');
     }
 };
 
@@ -609,6 +645,7 @@ export const DeleteMultiPost = async (req, res) => {
                 await Comment.deleteMany({
                     _id: { $in: post.comments },
                 });
+
                 await post.deleteOne();
 
                 return {

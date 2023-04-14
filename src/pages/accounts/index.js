@@ -38,7 +38,7 @@ const UsersPage = ({ error }) => {
         <>
             <Meta
                 title={'Accounts | Compact Ideas'}
-                description={'This is the accounts page'}
+                description={'This is the accounts page!'}
             />
 
             <Box

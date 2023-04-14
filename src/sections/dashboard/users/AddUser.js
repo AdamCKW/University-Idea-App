@@ -39,6 +39,14 @@ export default function AddUser({ setShowAddUser }) {
     });
 
     async function onSubmit(values) {
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +54,7 @@ export default function AddUser({ setShowAddUser }) {
         };
 
         try {
-            await axios.post('/api/auth/register', values, options);
+            await axios.post('/api/auth/register', trimmedValues, options);
             mutate('/api/users');
             setAlertMessage('User Added Successfully');
             setIsError(false);

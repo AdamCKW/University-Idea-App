@@ -16,7 +16,6 @@ import PostCard from '@/sections/feed/individual/post/PostCard';
 import CommentForm from '@/sections/feed/individual/comments/CommentForm';
 import CommentCard from '@/sections/feed/individual/comments/CommentCard';
 import { getSession, useSession } from 'next-auth/react';
-import { getFormatDate } from '@/utils/getFormatDate';
 import Loading from '@/components/Loading';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -50,7 +49,7 @@ const PostDetail = ({ postData, formattedDate }) => {
             </Card>
         );
 
-    const { title, _id, author, isAuthHidden, comments } = post.post;
+    const { title, _id, author, isAuthHidden, comments, deleted } = post.post;
     return (
         <>
             <Meta
@@ -83,7 +82,7 @@ const PostDetail = ({ postData, formattedDate }) => {
                                 Home
                             </Link>
                             <Typography color="text.primary">
-                                {title}
+                                {deleted ? 'Deleted Idea Post' : title}
                             </Typography>
                         </Breadcrumbs>
 

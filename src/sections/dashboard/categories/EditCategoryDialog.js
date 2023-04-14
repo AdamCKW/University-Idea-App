@@ -40,6 +40,14 @@ export default function UpdateCategory({
     };
 
     async function onSubmit(values) {
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +55,7 @@ export default function UpdateCategory({
         };
 
         try {
-            await axios.put(`/api/categories/${_id}`, values, options);
+            await axios.put(`/api/categories/${_id}`, trimmedValues, options);
 
             mutate('/api/categories');
             setAlertMessage('Category Updated Successfully');

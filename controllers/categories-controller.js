@@ -121,7 +121,7 @@ export const DeleteMultipleCategory = async (req, res) => {
     try {
         const categoriesInUse = await Post.find({ category: { $in: ids } });
         if (categoriesInUse.length > 0) {
-            return res.status(400).json('Categories in use');
+            return res.status(400).json('Categories Selected In Use');
         }
         await Category.deleteMany({ _id: { $in: ids } });
         return res

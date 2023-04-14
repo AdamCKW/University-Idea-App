@@ -40,6 +40,14 @@ export default function AddComment({ userId, setShowForm, postId }) {
     });
 
     async function onSubmit(values, { resetForm }) {
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +57,7 @@ export default function AddComment({ userId, setShowForm, postId }) {
         try {
             const response = await axios.post(
                 `/api/posts/${postId}/comment`,
-                values,
+                trimmedValues,
                 options
             );
             mutate(`/api/posts/${postId}`);

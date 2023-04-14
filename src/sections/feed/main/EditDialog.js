@@ -61,6 +61,14 @@ function Form({ userId, post, setDialog, dialog }) {
     });
 
     async function onSubmit(values) {
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -69,7 +77,7 @@ function Form({ userId, post, setDialog, dialog }) {
         };
 
         try {
-            await axios.put(`/api/posts/${id}`, values, options);
+            await axios.put(`/api/posts/${id}`, trimmedValues, options);
             mutate(feedUrl);
             setAlertMessage('Post Updated Successfully');
             setIsError(false);

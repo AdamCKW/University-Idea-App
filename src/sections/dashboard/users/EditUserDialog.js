@@ -56,7 +56,15 @@ export default function UpdateUser({ user, editDialog, setEditDialog }) {
     };
 
     async function onSubmit(values) {
-        setData(values);
+        const trimmedValues = Object.entries(values).reduce(
+            (acc, [key, value]) => {
+                acc[key] = typeof value === 'string' ? value.trim() : value;
+                return acc;
+            },
+            {}
+        );
+
+        setData(trimmedValues);
         setOpenModal(true);
     }
 

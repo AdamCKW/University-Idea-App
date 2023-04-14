@@ -29,6 +29,7 @@ const fetchPosts = async (
                 createdAt,
                 category,
                 views,
+                deleted,
             }) => ({
                 id: _id,
                 title,
@@ -41,6 +42,7 @@ const fetchPosts = async (
                 createdAt,
                 category,
                 views,
+                deleted,
             })
         );
 
