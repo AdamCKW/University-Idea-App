@@ -214,7 +214,7 @@ export const DeleteComment = async (req, res) => {
 
 export const HideComment = async (req, res) => {
     const { id } = req.query;
-    const { userId } = req.body.data;
+    const { userId } = req.body;
 
     try {
         const findComment = await Comment.findById(id);

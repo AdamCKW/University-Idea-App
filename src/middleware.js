@@ -14,4 +14,8 @@ export { default } from 'next-auth/middleware';
 //     }
 // );
 
-export const config = { matcher: ['/'] };
+// export const config = { matcher: ['/'] };
+
+export const config = {
+    matcher: ['/((?!login|_next/image|favicon.ico|api).*)'],
+};

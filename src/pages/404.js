@@ -7,7 +7,7 @@ import Meta from '@/components/meta';
 const Page = () => (
     <>
         <Meta
-            title={'404 Page Not Found'}
+            title={'404 Page Not Found | Compact-Idea'}
             description={'404 Page Not Found'}
         />
         <Box

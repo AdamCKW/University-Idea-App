@@ -54,6 +54,13 @@ export default function CommentTable() {
     const columns = [
         { field: 'displayId', headerName: 'No.', width: 100 },
         { field: 'comment', headerName: 'Comment', width: 300 },
+        {
+            field: 'deleted',
+            headerName: 'Deleted',
+            sortable: false,
+            width: 100,
+            type: 'boolean',
+        },
         { field: 'author', headerName: 'Author', width: 300 },
         {
             field: 'isAuthHidden',
@@ -133,7 +140,7 @@ export default function CommentTable() {
                         pageSizeOptions={[5, 10, 25]}
                         autoHeight
                         getRowClassName={(params) =>
-                            `super-app-theme--${params.row.isAuthHidden}`
+                            `super-app-theme--${params.row.isAuthHidden} super-app-theme--${params.row.deleted}`
                         }
                     />
                 </Box>

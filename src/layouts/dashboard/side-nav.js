@@ -81,7 +81,7 @@ export const SideNav = (props) => {
                                 : false;
 
                             const hasPermission = item.permissions.includes(
-                                session.user.role
+                                session?.user?.role
                             );
 
                             if (hasPermission) {

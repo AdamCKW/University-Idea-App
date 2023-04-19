@@ -54,6 +54,13 @@ export default function PostTable() {
     const columns = [
         { field: 'displayId', headerName: 'No.', width: 100 },
         { field: 'title', headerName: 'Title', width: 300 },
+        {
+            field: 'deleted',
+            headerName: 'Deleted',
+            width: 100,
+            type: 'boolean',
+            sortable: false,
+        },
         { field: 'category', headerName: 'Category', width: 300 },
         { field: 'author', headerName: 'Author', width: 300 },
         {
@@ -142,7 +149,7 @@ export default function PostTable() {
                         pageSizeOptions={[5, 10, 25]}
                         autoHeight
                         getRowClassName={(params) =>
-                            `super-app-theme--${params.row.isAuthHidden}`
+                            `super-app-theme--${params.row.isAuthHidden} super-app-theme--${params.row.deleted}`
                         }
                     />
                 </Box>
