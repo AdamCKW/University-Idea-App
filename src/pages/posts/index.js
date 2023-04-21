@@ -79,6 +79,12 @@ const PostsPage = ({ error }) => {
                                         </Button>
 
                                         <Button
+                                            disabled={
+                                                process.env.NODE_ENV ===
+                                                'production'
+                                                    ? true
+                                                    : false
+                                            }
                                             href="api/download/files"
                                             color="inherit"
                                             startIcon={
