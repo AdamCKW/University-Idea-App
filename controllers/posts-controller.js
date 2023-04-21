@@ -358,9 +358,17 @@ export const PostAndUpload = async (req, res) => {
             const categoryId = req.body.category;
             const category = await Category.findById(categoryId);
             const author = await User.findById(userId);
+            if (!author) {
+                await deleteFiles(images.map((file) => file.id));
+                await deleteFiles(documents.map((file) => file.id));
+                await Post.findByIdAndDelete(newPost._id);
+
+                return res.status(400).json('Invalid author');
+            }
+
             const qaCoordinators = await User.find({
                 role: 'qaCoordinator',
-                department: author.department,
+                department: author?.department,
             });
 
             const subject = 'New Post Submitted';
