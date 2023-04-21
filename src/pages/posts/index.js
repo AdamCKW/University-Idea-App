@@ -88,25 +88,27 @@ const PostsPage = ({ error }) => {
                                             }
                                             arrow
                                         >
-                                            <Button
-                                                disabled={
-                                                    process.env.NODE_ENV ===
-                                                    'production'
-                                                        ? true
-                                                        : false
-                                                }
-                                                href="api/download/files"
-                                                color="inherit"
-                                                startIcon={
-                                                    <SvgIcon fontSize="small">
-                                                        <DownloadIcon />
-                                                    </SvgIcon>
-                                                }
-                                                rel="noopener noreferrer"
-                                                target="_blank"
-                                            >
-                                                Download
-                                            </Button>
+                                            <span>
+                                                <Button
+                                                    disabled={
+                                                        process.env.NODE_ENV ===
+                                                        'production'
+                                                            ? true
+                                                            : false
+                                                    }
+                                                    href="api/download/files"
+                                                    color="inherit"
+                                                    startIcon={
+                                                        <SvgIcon fontSize="small">
+                                                            <DownloadIcon />
+                                                        </SvgIcon>
+                                                    }
+                                                    rel="noopener noreferrer"
+                                                    target="_blank"
+                                                >
+                                                    Download
+                                                </Button>
+                                            </span>
                                         </Tooltip>
                                     </Stack>
                                 ) : null}

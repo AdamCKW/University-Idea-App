@@ -221,18 +221,20 @@ export default function AddIdea({ userId, setShowAddPost }) {
                                             }
                                             arrow
                                         >
-                                            <Button
-                                                disabled={
-                                                    process.env.NODE_ENV ===
-                                                    'production'
-                                                        ? true
-                                                        : false
-                                                }
-                                                variant="contained"
-                                                component="span"
-                                            >
-                                                Choose Images
-                                            </Button>
+                                            <span>
+                                                <Button
+                                                    disabled={
+                                                        process.env.NODE_ENV ===
+                                                        'production'
+                                                            ? true
+                                                            : false
+                                                    }
+                                                    variant="contained"
+                                                    component="span"
+                                                >
+                                                    Choose Images
+                                                </Button>
+                                            </span>
                                         </Tooltip>
                                     </label>
                                 </Grid>
@@ -291,18 +293,20 @@ export default function AddIdea({ userId, setShowAddPost }) {
                                             }
                                             arrow
                                         >
-                                            <Button
-                                                disabled={
-                                                    process.env.NODE_ENV ===
-                                                    'production'
-                                                        ? true
-                                                        : false
-                                                }
-                                                variant="contained"
-                                                component="span"
-                                            >
-                                                Choose Documents
-                                            </Button>
+                                            <span>
+                                                <Button
+                                                    disabled={
+                                                        process.env.NODE_ENV ===
+                                                        'production'
+                                                            ? true
+                                                            : false
+                                                    }
+                                                    variant="contained"
+                                                    component="span"
+                                                >
+                                                    Choose Documents
+                                                </Button>
+                                            </span>
                                         </Tooltip>
                                     </label>
                                 </Grid>

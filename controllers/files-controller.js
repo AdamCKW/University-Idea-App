@@ -37,7 +37,7 @@ export const DownloadPostData = async (req, res) => {
             return {
                 ...rest,
                 category: category.name,
-                author: author.name,
+                author: author?.name || 'Deleted User',
                 likes: likes.length,
                 dislikes: dislikes.length,
                 comments: comments.length,
