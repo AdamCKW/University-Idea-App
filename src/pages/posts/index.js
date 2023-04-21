@@ -11,6 +11,7 @@ import {
     Button,
     useTheme,
     Stack,
+    Tooltip,
     SvgIcon,
     Typography,
     Unstable_Grid2 as Grid,
@@ -78,25 +79,35 @@ const PostsPage = ({ error }) => {
                                             Export
                                         </Button>
 
-                                        <Button
-                                            disabled={
+                                        <Tooltip
+                                            title={
                                                 process.env.NODE_ENV ===
                                                 'production'
-                                                    ? true
-                                                    : false
+                                                    ? 'Disabled in production mode due to server limitation'
+                                                    : ''
                                             }
-                                            href="api/download/files"
-                                            color="inherit"
-                                            startIcon={
-                                                <SvgIcon fontSize="small">
-                                                    <DownloadIcon />
-                                                </SvgIcon>
-                                            }
-                                            rel="noopener noreferrer"
-                                            target="_blank"
+                                            arrow
                                         >
-                                            Download
-                                        </Button>
+                                            <Button
+                                                disabled={
+                                                    process.env.NODE_ENV ===
+                                                    'production'
+                                                        ? true
+                                                        : false
+                                                }
+                                                href="api/download/files"
+                                                color="inherit"
+                                                startIcon={
+                                                    <SvgIcon fontSize="small">
+                                                        <DownloadIcon />
+                                                    </SvgIcon>
+                                                }
+                                                rel="noopener noreferrer"
+                                                target="_blank"
+                                            >
+                                                Download
+                                            </Button>
+                                        </Tooltip>
                                     </Stack>
                                 ) : null}
                             </Stack>
