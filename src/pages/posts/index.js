@@ -65,19 +65,29 @@ const PostsPage = ({ error }) => {
                                         direction="row"
                                         spacing={1}
                                     >
-                                        <Button
-                                            href="api/download/data"
-                                            color="inherit"
-                                            startIcon={
-                                                <SvgIcon fontSize="small">
-                                                    <ArchiveIcon />
-                                                </SvgIcon>
+                                        <Tooltip
+                                            title={
+                                                process.env.NODE_ENV ===
+                                                'production'
+                                                    ? 'May not work in production server to server limitations'
+                                                    : ''
                                             }
-                                            rel="noopener noreferrer"
-                                            target="_blank"
+                                            arrow
                                         >
-                                            Export
-                                        </Button>
+                                            <Button
+                                                href="api/download/data"
+                                                color="inherit"
+                                                startIcon={
+                                                    <SvgIcon fontSize="small">
+                                                        <ArchiveIcon />
+                                                    </SvgIcon>
+                                                }
+                                                rel="noopener noreferrer"
+                                                target="_blank"
+                                            >
+                                                Export
+                                            </Button>
+                                        </Tooltip>
 
                                         <Tooltip
                                             title={
