@@ -116,7 +116,7 @@ export const UserRegisterMulti = async (req, res) => {
 
     try {
         const savedUsers = [];
-        const AlreadyExist = [];
+        const notSavedUsers = [];
 
         for (let i = 0; i < req.body.length; i++) {
             const user = req.body[i];
