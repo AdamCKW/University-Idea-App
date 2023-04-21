@@ -11,6 +11,7 @@ import {
     Card,
     Input,
     FormGroup,
+    Tooltip,
     FormControlLabel,
 } from '@mui/material';
 
@@ -194,6 +195,12 @@ export default function AddIdea({ userId, setShowAddPost }) {
                                 {/* Post Images */}
                                 <Grid item xs={12}>
                                     <Input
+                                        disabled={
+                                            process.env.NODE_ENV ===
+                                            'production'
+                                                ? true
+                                                : false
+                                        }
                                         id="image-file-input"
                                         type="file"
                                         inputProps={{
@@ -205,12 +212,28 @@ export default function AddIdea({ userId, setShowAddPost }) {
                                     />
 
                                     <label htmlFor="image-file-input">
-                                        <Button
-                                            variant="contained"
-                                            component="span"
+                                        <Tooltip
+                                            title={
+                                                process.env.NODE_ENV ===
+                                                'production'
+                                                    ? 'Disabled in production mode due to server limitation'
+                                                    : ''
+                                            }
+                                            arrow
                                         >
-                                            Choose Images
-                                        </Button>
+                                            <Button
+                                                disabled={
+                                                    process.env.NODE_ENV ===
+                                                    'production'
+                                                        ? true
+                                                        : false
+                                                }
+                                                variant="contained"
+                                                component="span"
+                                            >
+                                                Choose Images
+                                            </Button>
+                                        </Tooltip>
                                     </label>
                                 </Grid>
 
@@ -250,15 +273,37 @@ export default function AddIdea({ userId, setShowAddPost }) {
                                             onChange: handleDocChange,
                                         }}
                                         sx={{ display: 'none' }}
+                                        disabled={
+                                            process.env.NODE_ENV ===
+                                            'production'
+                                                ? true
+                                                : false
+                                        }
                                     />
 
                                     <label htmlFor="document-file-input">
-                                        <Button
-                                            variant="contained"
-                                            component="span"
+                                        <Tooltip
+                                            title={
+                                                process.env.NODE_ENV ===
+                                                'production'
+                                                    ? 'Disabled in production mode due to server limitation'
+                                                    : ''
+                                            }
+                                            arrow
                                         >
-                                            Choose Documents
-                                        </Button>
+                                            <Button
+                                                disabled={
+                                                    process.env.NODE_ENV ===
+                                                    'production'
+                                                        ? true
+                                                        : false
+                                                }
+                                                variant="contained"
+                                                component="span"
+                                            >
+                                                Choose Documents
+                                            </Button>
+                                        </Tooltip>
                                     </label>
                                 </Grid>
 
